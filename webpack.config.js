@@ -8,7 +8,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '<project-name>.user.js',
+    filename: 'scid.user.js',
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -17,6 +17,8 @@ module.exports = {
     new WebpackUserscript({
       headers: {
         version: dev ? `[version]-build.[buildNo]` : `[version]`,
+        match: ['*://soundcloud.com/*'],
+        grant: ['GM_xmlhttpRequest'],
       },
     }),
   ],

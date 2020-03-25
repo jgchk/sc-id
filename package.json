@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "env NODE_ENV=development webpack-dev-server",
+    "build": "env NODE_ENV=production webpack"
+  },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
@@ -13,6 +17,7 @@
     "lint-staged": ">=10",
     "prettier": "^2.0.2",
     "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-userscript": "^2.5.1"
   },
