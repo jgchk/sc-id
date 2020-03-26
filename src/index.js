@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import Promise from 'bluebird'
 
 const tag = 'SCID: '
 
@@ -31,15 +32,21 @@ async function getClientId(assetUrl) {
 
   const clientIdRegex = /{\s*client_id:\s*"([^"]+)"\s*}/
   const match = clientIdRegex.exec(response)
-  if (!match) return null
+  if (!match) throw Error('No client_id found')
   return match[1]
 }
 
+async function findClientId(assetUrls) {
+  const clientIds = await Promise.some(assetUrls.map(getClientId), 1)
+  if (clientIds.length > 0) return clientIds[0]
+  return null
+}
+
 async function postClientId(clientId) {
-  console.log(tag, 'Posting client_id...')
   const url = `https://jake.cafe/api/sc/add?clientId=${encodeURIComponent(
     clientId
   )}`
+  console.log(tag, 'Posting client_id...', url)
   return fetchUrl(url)
     .then((response) => {
       console.log(tag, 'Successfully posted!')
@@ -51,11 +58,11 @@ async function postClientId(clientId) {
     })
 }
 
-function main() {
+async function main() {
   const assetUrls = getAssetUrls()
-  const clientId = assetUrls.find(getClientId)
+  const clientId = await findClientId(assetUrls)
   if (clientId) {
-    console.log(tag, 'Found client_id!')
+    console.log(tag, 'Found client_id!', clientId)
     postClientId(clientId)
   } else {
     console.log(tag, 'No client_id found.')
