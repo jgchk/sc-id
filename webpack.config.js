@@ -17,6 +17,7 @@ module.exports = {
     new WebpackUserscript({
       headers: {
         version: dev ? `[version]-build.[buildNo]` : `[version]`,
+        license: 'GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt',
         match: ['*://soundcloud.com/*'],
         grant: ['GM_xmlhttpRequest'],
       },
